@@ -1,0 +1,5 @@
+package com.joshisfarm.distributor_service.entity;
+
+public class Delivery {
+
+}

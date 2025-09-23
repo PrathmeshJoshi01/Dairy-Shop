@@ -1,0 +1,5 @@
+package com.joshisFarm.notification_service.dto;
+
+public class NotificationDTO {
+
+}

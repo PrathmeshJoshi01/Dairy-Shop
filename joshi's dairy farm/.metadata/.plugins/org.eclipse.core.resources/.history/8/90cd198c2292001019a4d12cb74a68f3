@@ -1,0 +1,5 @@
+package com.joshisfarm.finance_service.controller;
+
+public class FinanceController {
+
+}

@@ -1,0 +1,64 @@
+package com.joshisfarm.finance_service.service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
+import com.joshisfarm.finance_service.client.AuthClient;
+import com.joshisfarm.finance_service.client.NotificationClient;
+import com.joshisfarm.finance_service.dto.TransactionDTO;
+import com.joshisfarm.finance_service.dto.UserResponseDTO;
+import com.joshisfarm.finance_service.entity.Transaction;
+import com.joshisfarm.finance_service.repository.TransactionRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class FinanceService {
+
+	private final TransactionRepository repository;
+	private final NotificationClient notificationClient;
+	private final AuthClient authClient;
+	
+	public TransactionDTO addTransaction(TransactionDTO dto, String token) {
+		UserResponseDTO authUser =  authClient.validateToken(token);
+		
+		Transaction tx = Transaction.builder()
+				.type(dto.getType())
+                .category(dto.getCategory())
+                .amount(dto.getAmount())
+                .description(dto.getDescription())
+                .date(LocalDateTime.now())
+                .createdBy(authUser.getUsername())
+                .build();
+
+		tx = repository.save(tx);
+		
+		if (tx.getType().equalsIgnoreCase("EXPENSE") && tx.getAmount() > 1000) {
+            notificationClient.sendNotification("High expense recorded: " + tx.getAmount() + " (" + tx.getCategory() + ")");
+        }
+		
+		return mapToDto(tx);
+	}
+	
+	public List<TransactionDTO> getAllTransactions(String token){
+		authClient.validateToken(token);
+        return repository.findAll().stream().map(this::mapToDTO).collect(Collectors.toList());
+	}
+	
+	private TransactionDTO mapToDTO(Transaction tx) {
+        return TransactionDTO.builder()
+                .id(tx.getId())
+                .type(tx.getType())
+                .category(tx.getCategory())
+                .amount(tx.getAmount())
+                .description(tx.getDescription())
+                .date(tx.getDate())
+                .createdBy(tx.getCreatedBy())
+                .build();
+    }
+	
+}

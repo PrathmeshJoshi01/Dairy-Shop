@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="MavenProjectImportWizardPage">
+		<list key="rootDirectory">
+			<item value="D:\projects\enterprice project\joshi&apos;s dairy farm\notification-service"/>
+			<item value="D:\projects\enterprice project\joshi&apos;s dairy farm\notification-service\notification-service"/>
+			<item value="D:\projects\enterprice project\joshi&apos;s dairy farm\distributor-service"/>
+			<item value="D:\projects\enterprice project\joshi&apos;s dairy farm\finance-service"/>
+			<item value="D:\projects\enterprice project\joshi&apos;s dairy farm\inventory-service"/>
+			<item value="D:\projects\enterprice project\joshi&apos;s dairy farm\feed-service"/>
+			<item value="D:\projects\enterprice project\joshi&apos;s dairy farm\breeding-service"/>
+			<item value="D:\projects\enterprice project\joshi&apos;s dairy farm\health-service"/>
+			<item value="D:\projects\enterprice project\joshi&apos;s dairy farm\milk-service"/>
+			<item value="D:\projects\enterprice project\joshi&apos;s dairy farm\animal-service"/>
+			<item value="D:\projects\enterprice project\joshi&apos;s dairy farm\user-service"/>
+			<item value="D:\projects\enterprice project\joshi&apos;s dairy farm\company-service"/>
+			<item value="D:\projects\enterprice project\joshi&apos;s dairy farm\gateway-service"/>
+			<item value="D:\projects\enterprice project\joshi&apos;s dairy farm\auth-service"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+	<section name="org.eclipse.m2e.core.pom.overview">
+	</section>
+	<section name="org.eclipse.m2e.core.pom.dependencies">
+	</section>
+	<section name="MavenProjectWizardLocationPage">
+		<list key="location">
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+	<section name="MavenProjectWizardArchetypePage">
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+	<section name="Maven2ProjectWizardArchifactPage">
+		<list key="package">
+		</list>
+		<list key="groupId">
+		</list>
+		<list key="artifactId">
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+		<list key="version">
+			<item value="0.0.1-SNAPSHOT"/>
+		</list>
+	</section>
+	<section name="MavenProjectWizardArtifactPage">
+		<list key="groupId">
+		</list>
+		<list key="name">
+		</list>
+		<list key="artifactId">
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+		<list key="version">
+			<item value="0.0.1-SNAPSHOT"/>
+		</list>
+	</section>
+</section>

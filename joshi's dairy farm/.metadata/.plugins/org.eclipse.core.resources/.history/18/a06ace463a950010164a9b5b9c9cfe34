@@ -1,0 +1,5 @@
+package com.joshisfarm.distributor_service.service;
+
+public class DistributorService {
+
+}

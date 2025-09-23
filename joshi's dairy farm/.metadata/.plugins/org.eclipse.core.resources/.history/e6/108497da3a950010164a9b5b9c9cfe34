@@ -1,0 +1,113 @@
+package com.joshisfarm.distributor_service.service;
+
+import java.time.LocalDateTime;
+
+import org.springframework.stereotype.Service;
+
+import com.joshisfarm.distributor_service.client.AuthClient;
+import com.joshisfarm.distributor_service.client.FinanceClient;
+import com.joshisfarm.distributor_service.client.NotificationClient;
+import com.joshisfarm.distributor_service.dto.DeliveryDTO;
+import com.joshisfarm.distributor_service.dto.DistributorDTO;
+import com.joshisfarm.distributor_service.dto.UserResponseDTO;
+import com.joshisfarm.distributor_service.entity.Delivery;
+import com.joshisfarm.distributor_service.entity.Distributor;
+import com.joshisfarm.distributor_service.repository.DeliveryRepository;
+import com.joshisfarm.distributor_service.repository.DistributorRepository;
+
+import lombok.*;
+
+@Service @RequiredArgsConstructor
+public class DistributorService {
+
+    private final DistributorRepository distributorRepo;
+    private final DeliveryRepository deliveryRepo;
+    private final AuthClient authClient;
+    private final FinanceClient financeClient;
+    private final NotificationClient notificationClient;
+
+    public DistributorDTO addDistributor(DistributorDTO dto, String token) {
+        authClient.validateToken(token);
+        Distributor distributor = distributorRepo.save(
+                Distributor.builder()
+                        .name(dto.getName())
+                        .location(dto.getLocation())
+                        .contact(dto.getContact())
+                        .balance(0.0)
+                        .build()
+        );
+        return mapToDTO(distributor);
+    }
+
+    public DeliveryDTO recordDelivery(DeliveryDTO dto, String token) {
+        UserResponseDTO user = authClient.validateToken(token);
+
+        Distributor distributor = distributorRepo.findById(dto.getDistributorId())
+                .orElseThrow(() -> new RuntimeException("Distributor not found"));
+
+        Delivery delivery = deliveryRepo.save(
+                Delivery.builder()
+                        .distributorId(dto.getDistributorId())
+                        .quantityLiters(dto.getQuantityLiters())
+                        .deliveryDate(dto.getDeliveryDate())
+                        .shift(dto.getShift())
+                        .price(dto.getPrice())
+                        .paid(false)
+                        .build()
+        );
+
+        distributor.setBalance(distributor.getBalance() + dto.getPrice());
+        distributorRepo.save(distributor);
+
+        notificationClient.sendNotification("Delivery recorded for " + distributor.getName());
+
+        return mapToDTO(delivery);
+    }
+
+    public void markPayment(Long deliveryId, String token) {
+        UserResponseDTO user = authClient.validateToken(token);
+
+        Delivery delivery = deliveryRepo.findById(deliveryId)
+                .orElseThrow(() -> new RuntimeException("Delivery not found"));
+
+        if (delivery.isPaid()) throw new RuntimeException("Already paid");
+
+        delivery.setPaid(true);
+        deliveryRepo.save(delivery);
+
+        Distributor distributor = distributorRepo.findById(delivery.getDistributorId())
+                .orElseThrow(() -> new RuntimeException("Distributor not found"));
+
+        distributor.setBalance(distributor.getBalance() - delivery.getPrice());
+        distributorRepo.save(distributor);
+
+        // log to finance as INCOME
+        TransactionDTO tx = new TransactionDTO(null, "INCOME", "MILK",
+                delivery.getPrice(), "Payment received from distributor", LocalDateTime.now(), user.getUsername());
+        financeClient.addTransaction(tx, token);
+
+        notificationClient.sendNotification("Payment received from " + distributor.getName());
+    }
+
+    private DistributorDTO mapToDTO(Distributor distributor) {
+        return DistributorDTO.builder()
+                .id(distributor.getId())
+                .name(distributor.getName())
+                .location(distributor.getLocation())
+                .contact(distributor.getContact())
+                .balance(distributor.getBalance())
+                .build();
+    }
+
+    private DeliveryDTO mapToDTO(Delivery delivery) {
+        return DeliveryDTO.builder()
+                .id(delivery.getId())
+                .distributorId(delivery.getDistributorId())
+                .quantityLiters(delivery.getQuantityLiters())
+                .deliveryDate(delivery.getDeliveryDate())
+                .shift(delivery.getShift())
+                .price(delivery.getPrice())
+                .paid(delivery.isPaid())
+                .build();
+    }
+}
