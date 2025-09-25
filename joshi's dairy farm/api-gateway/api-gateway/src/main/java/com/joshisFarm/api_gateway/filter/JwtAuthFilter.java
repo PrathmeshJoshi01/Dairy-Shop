@@ -6,7 +6,6 @@ import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFac
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import reactor.core.publisher.Mono;
 
 @Component
 public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Config> {
@@ -17,7 +16,7 @@ public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Co
         super(Config.class);
     }
 
-    @Override
+	@Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
             String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
@@ -29,10 +28,10 @@ public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Co
 
             try {
                 String token = authHeader.substring(7);
-                Jwts.parser()
-                        .setSigningKey(SECRET.getBytes())
-                        .build()
-                        .parseClaimsJws(token);
+                Jwts.parserBuilder()
+                .setSigningKey(SECRET.getBytes())
+                .build()
+                .parseClaimsJws(token);
             } catch (Exception e) {
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 return exchange.getResponse().setComplete();
