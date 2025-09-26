@@ -1,5 +1,0 @@
-package com.joshisfarm.distributor_service.dto;
-
-public class DeliveryDTO {
-
-}
