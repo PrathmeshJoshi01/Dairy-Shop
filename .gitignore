@@ -52,3 +52,17 @@ out/
 
 # Ignore local Git repos if copied accidentally
 **/.git/
+
+# Eclipse workspace metadata (never commit this!)
+.metadata/
+
+# Eclipse-specific files
+*.launch
+.settings/
+*.classpath
+*.project
+
+# Other common ignores
+target/
+bin/
+*.log
