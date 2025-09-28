@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.joshisFarm.company_service.dto.UserResponseDTO;
 
-@FeignClient(name = "auth-service", url = "http://localhost:8081/auth")
+@FeignClient(name = "auth-service",contextId = "companyAuthClient",path = "/auth")
 public interface AuthClient {
 
     @GetMapping("/validate")

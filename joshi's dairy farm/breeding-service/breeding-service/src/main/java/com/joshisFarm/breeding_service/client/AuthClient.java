@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.joshisFarm.breeding_service.dto.UserResponseDTO;
 
-@FeignClient(name = "auth-service", url = "http://localhost:8081/auth")
+@FeignClient(name = "auth-service", contextId = "breedingAuthClient",path = "/auth")
 public interface AuthClient {
 	 @GetMapping("/validate")
 	 UserResponseDTO validateToken(@RequestHeader("Authorization") String token);
