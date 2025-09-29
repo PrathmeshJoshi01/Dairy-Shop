@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 import com.joshisFarm.milk_service.dto.UserResponseDTO;
 
-@FeignClient(name = "auth-service", url = "http://localhost:8081/auth")
+@FeignClient(name = "auth-service",contextId = "milkAuthClient",path = "/auth"  )
 public interface AuthClient {
 
     @GetMapping("/validate")
