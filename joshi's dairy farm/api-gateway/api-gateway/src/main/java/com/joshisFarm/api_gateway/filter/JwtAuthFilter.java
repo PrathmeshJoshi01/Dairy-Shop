@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Config> {
 
-    private static final String SECRET = "mySecretKey"; // TODO: use same secret as Auth Service
+    private static final String SECRET = "FzPp6no55Tw70Gi3fuy5oeJkazicjSa7L1Q5Ub1XCwHvEg42eM"; // TODO: use same secret as Auth Service
 
     public JwtAuthFilter() {
         super(Config.class);
