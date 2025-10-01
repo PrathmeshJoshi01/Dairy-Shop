@@ -10,15 +10,21 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Config> {
 
-    private static final String SECRET = "FzPp6no55Tw70Gi3fuy5oeJkazicjSa7L1Q5Ub1XCwHvEg42eM"; // TODO: use same secret as Auth Service
+    private static final String SECRET = "FzPp6no55Tw70Gi3fuy5oeJkazicjSa7L1Q5Ub1XCwHvEg42eM"; // SAME as auth-service
 
     public JwtAuthFilter() {
         super(Config.class);
     }
 
-	@Override
+    @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
+            String path = exchange.getRequest().getURI().getPath();
+
+            if (path.startsWith("/auth/")) {
+                return chain.filter(exchange);
+            }
+
             String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
 
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -29,9 +35,9 @@ public class JwtAuthFilter extends AbstractGatewayFilterFactory<JwtAuthFilter.Co
             try {
                 String token = authHeader.substring(7);
                 Jwts.parserBuilder()
-                .setSigningKey(SECRET.getBytes())
-                .build()
-                .parseClaimsJws(token);
+                        .setSigningKey(SECRET.getBytes())
+                        .build()
+                        .parseClaimsJws(token);
             } catch (Exception e) {
                 exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 return exchange.getResponse().setComplete();

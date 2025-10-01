@@ -1,7 +1,7 @@
 package com.joshisFarm.auth_service.entity;
 
 public enum Role {
-	OWNER,
+	OWONER,
 	WORKER,
 	MANAGER,
 	DISTRIBUTOR
