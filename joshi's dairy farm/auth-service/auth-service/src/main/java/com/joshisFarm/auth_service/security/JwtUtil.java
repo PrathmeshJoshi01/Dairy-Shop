@@ -32,6 +32,11 @@ public class JwtUtil {
     public String extractEmail(String token) {
         return parseClaims(token).getSubject();
     }
+    
+    public String extractRole(String token) {
+        return parseClaims(token).getSubject();
+    }
+    
 
     public boolean validateToken(String token) {
         try {

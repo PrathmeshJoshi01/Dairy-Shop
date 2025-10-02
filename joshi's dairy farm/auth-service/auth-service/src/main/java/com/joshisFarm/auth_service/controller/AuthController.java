@@ -22,4 +22,11 @@ public class AuthController {
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
         return ResponseEntity.ok(authService.login(request));
     }
+    
+    @GetMapping("/validate")
+    public ResponseEntity<UserResponseDTO> validateToken(@RequestHeader("Authorization") String token) {
+        UserResponseDTO user = authService.validateToken(token);
+        return ResponseEntity.ok(user);
+    }
+
 }

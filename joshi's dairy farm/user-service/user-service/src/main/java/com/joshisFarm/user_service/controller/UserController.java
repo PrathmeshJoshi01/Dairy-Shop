@@ -51,5 +51,4 @@ public class UserController {
                                                         @RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(userService.markAttendance(id, present, token));
     }
-
 }

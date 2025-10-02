@@ -30,7 +30,7 @@ public class UserService {
         UserResponseDTO authUser = authClient.validateToken(token);
 
         // Only OWNER or MANAGER can create users
-        if (!(authUser.getRole().equalsIgnoreCase("OWNER") || authUser.getRole().equalsIgnoreCase("MANAGER"))) {
+        if (!(authUser.getRole().equalsIgnoreCase("OWONER") || authUser.getRole().equalsIgnoreCase("MANAGER"))) {
             throw new RuntimeException("Access denied: Only Owner or Manager can create users.");
         }
 
