@@ -28,5 +28,4 @@ public class AuthController {
         UserResponseDTO user = authService.validateToken(token);
         return ResponseEntity.ok(user);
     }
-
 }
