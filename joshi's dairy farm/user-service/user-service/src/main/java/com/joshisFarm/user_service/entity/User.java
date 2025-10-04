@@ -22,9 +22,14 @@ public class User {
 	private Long id;
 	
 	private String name;
+
+	@Column(unique = true, nullable = false)
+	private String email;
+	
 	private String location;
 	private Double earning;
 	private Integer cowsCount;
+	
 	
 	@Column(nullable = false)
 	private Long companyId;

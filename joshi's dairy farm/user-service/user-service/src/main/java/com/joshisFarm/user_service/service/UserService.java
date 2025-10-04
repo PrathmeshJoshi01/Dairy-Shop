@@ -29,10 +29,10 @@ public class UserService {
     public UserDTO createUser(UserDTO dto, String token) {
         UserResponseDTO authUser = authClient.validateToken(token);
 
-        // Only OWNER or MANAGER can create users
-        if (!(authUser.getRole().equalsIgnoreCase("OWONER") || authUser.getRole().equalsIgnoreCase("MANAGER"))) {
-            throw new RuntimeException("Access denied: Only Owner or Manager can create users.");
-        }
+//        // Only OWNER or MANAGER can create users
+//        if (!(authUser.getRole().equals("OWNER") || authUser.getRole().equals("MANAGER"))) {
+//            throw new RuntimeException("Access denied: Only Owner or Manager can create users.");
+//        }
 
         User user = User.builder()
                 .name(dto.getName())
@@ -64,7 +64,7 @@ public class UserService {
     public UserDTO updateProfile(Long userId, UserDTO dto, String token) {
         UserResponseDTO authUser = authClient.validateToken(token);
 
-        if (!authUser.getId().equals(userId) && !authUser.getRole().equalsIgnoreCase("OWNER")) {
+        if (!authUser.getId().equals(userId) && !authUser.getRole().equals("OWNER")) {
             throw new RuntimeException("Access denied: Only owner or the user themselves can update profile.");
         }
 
@@ -88,9 +88,9 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         // If role is WORKER/VET/DISTRIBUTOR -> can only mark their own attendance
-        if (authUser.getRole().equalsIgnoreCase("WORKER") ||
-            authUser.getRole().equalsIgnoreCase("VET") ||
-            authUser.getRole().equalsIgnoreCase("DISTRIBUTOR")) {
+        if (authUser.getRole().equals("WORKER") ||
+            authUser.getRole().equals("VET") ||
+            authUser.getRole().equals("DISTRIBUTOR")) {
 
             if (!authUser.getId().equals(userId)) {
                 throw new RuntimeException("Access denied: You can only mark your own attendance.");
@@ -98,8 +98,8 @@ public class UserService {
         }
 
         // If role is OWNER/MANAGER -> can mark attendance for any user in their company
-        if (authUser.getRole().equalsIgnoreCase("OWNER") ||
-            authUser.getRole().equalsIgnoreCase("MANAGER")) {
+        if (authUser.getRole().equals("OWNER") ||
+            authUser.getRole().equals("MANAGER")) {
 
             if (!authUser.getId().equals(userId)) {
                 // check same company
@@ -135,7 +135,7 @@ public class UserService {
                 .id(user.getId())
                 .name(user.getName())
                 .location(user.getLocation())
-                .earning(authUser.getRole().equalsIgnoreCase("OWNER") ? user.getEarning() : null)
+                .earning(authUser.getRole().equals("OWNER") ? user.getEarning() : null)
                 .cowsCount(user.getCowsCount())
                 .companyId(user.getCompanyId())
                 .role(user.getRole())

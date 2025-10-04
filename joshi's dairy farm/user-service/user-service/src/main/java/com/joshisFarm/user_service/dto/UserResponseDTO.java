@@ -1,5 +1,7 @@
 package com.joshisFarm.user_service.dto;
 
+import com.joshisFarm.user_service.entity.Role;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,5 +15,5 @@ public class UserResponseDTO {
 	private Long id;
 	private String userName;
 	private String email;
-	private String role;
+	private Role role;
 }

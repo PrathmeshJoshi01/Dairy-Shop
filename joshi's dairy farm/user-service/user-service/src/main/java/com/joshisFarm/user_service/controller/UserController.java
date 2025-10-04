@@ -26,7 +26,7 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping
+    @PostMapping("/addUser")
     public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO dto,
                                               @RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(userService.createUser(dto, token));
